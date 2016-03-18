@@ -8,8 +8,6 @@ const Zones = require('./zones');
 
 module.exports = React.createClass({
 	mixins: [
-	    // listens for any events that are coming from ZoneStore, 
-	    // call onChange function when event triggered by store
 	  //  Reflux.listenTo(ZoneStartStore, 'onStartSingle')
   	],
 	getInitialState() {
@@ -21,6 +19,7 @@ module.exports = React.createClass({
 		return <Timer secondsRemaining={this.state.timerDuration} />
 	},
 	componentDidMount() {
+		// zoneData will be used to start multiple zones at same time
 		this.zoneData = [];
 	},
 	setAllZones() {
@@ -34,17 +33,22 @@ module.exports = React.createClass({
 			}
 		}
 	},
+	// Check if id exists in zoneData array
 	findObj(id) {
 		return this.zoneData.map(function(x) {
 			return x.id; 
 		}).indexOf(id);
 	},
+	// called when number selector is clicked in <Zone /> component
+	// updates duration based on id passed in from component
 	onUpdate(id,val) {
 		let index = this.findObj(id);
 		this.zoneData[index].duration = val;	
   	},
+  	// called when <Zone /> component is activated
   	onActivate(id,val) {
    		let index = this.findObj(id);
+   		// if activated push it onto the array, otherwise remove it
    		if(index === -1) {
 			this.zoneData.push({
 				'id': id,

@@ -1,6 +1,8 @@
 const React = require('react');
 const Reflux = require('reflux');
 const ZoneStore = require('../stores/zone-store');
+const Zones = require('./zones');
+const ZonesAll = require('./zones-all');
 
 
 module.exports = React.createClass({
@@ -13,28 +15,31 @@ module.exports = React.createClass({
   getInitialState() {
     // Set initial state to empty array so no content rendered
     return {
-      zones: []
+      zones: null
     }
   },
   componentWillMount() {
     // Retrieve zone data from zone store using API
     ZoneStore.getData();
   },
-  render() {
-    return <div>
-     {this.renderZones()}
-    </div>
-  },
+
   // Triggered when data is received from API
   onChange(event,zones) {
     this.setState({
       zones:zones
     })
+  //  console.log(this.state.zones);
   },
+   render() {
+   // console.log('test');
+  
+    return <div>
+      {this.state.zones ? this.renderZones() : null}   
+    </div>
+  },
+ 
   renderZones() {
-    return this.state.zones.map(function(zone) {
-      return <p key = {zone.id}>Zone # {zone.zoneNumber}</p>
-    });
+    return <ZonesAll zoneData = {this.state.zones} />
   }
 });
 

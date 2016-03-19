@@ -1,9 +1,13 @@
 module.exports = function(grunt) {
     grunt.initConfig({
-        sass: {
+         sass: {
             dist: {
                 files: {
-                    'css/styles.css': 'sass/main.scss',
+                    'static/css/styles.css': 'static/sass/main.scss',
+                },
+                options: { // Target options
+                    includePaths: require("node-neat").includePaths,
+                    style: 'compact'
                 }
             }
         },

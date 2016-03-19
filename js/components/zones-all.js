@@ -9,93 +9,62 @@ const utils = require('../utils/utils');
 
 module.exports = React.createClass({
 	mixins: [
-	    Reflux.listenTo(ZoneStartStore, 'onChange')
+	    Reflux.listenTo(ZoneStartStore, 'onChange'),
   	],
 	getInitialState() {
 		return {
 			zones: this.props.zoneData,
 			timer: false,
 			active: false,
-			totalTime: 0
+			loading: false
 		}
 	},
-	showTimer() {
-		return <Timer secondsRemaining={this.state.timerDuration} />
-	},
 	componentDidMount() {
-		this.zoneData = [];
+		this.activeZones = 0;
+		this.totalTime = 0;
 	},
-	// setAllZones() {
-	// 	this.zoneData = [];
-	// 	for (let i = 0; i < this.state.zones.length; i++) {
-	// 		this.zoneData[i] = {
-	// 			'id' : this.state.zones[i].id,
-	// 			'duration' : 1,
-	// 			'sortOrder': i + 1,
-	// 			'active' : true
-	// 		}
-	// 	}
-	// },
 	onChange(event) {
-		this.zoneData = [];
 		this.setState({
 			active: false,
+			timer: true,
+			loading: false
 		});
+	},
+	onActivate() {
+		this.activeZones = ZoneStartStore.getActiveZones();
+		 if(this.activeZones == 0) {
+      		this.setState({active: false})
+	    } else {
+	      	this.setState({active: true})
+	    }
+
 	},
 	startActiveZones() {
 		let data = {
 			'zones' : this.zoneData
 		}		
 		this.setState({
-			active: false,
-			timer: false
+			timer: false,
+			loading: true
 		})
+		this.totalTime = ZoneStartStore.getTotalTime();
 		ZoneStartStore.startZones(data);
 	},
-	// called when number selector is clicked in <Zone /> component
-	// updates duration based on id passed in from component
-	onUpdate(id,val) {
-		let index = utils.findObj(this.zoneData, id);
-		this.zoneData[index].duration = val;
-  	},
-  	// called when <Zone /> component is activated
-  	onActivate(id,val) {
-   		let index = utils.findObj(this.zoneData, id);
-   		// if activated push it onto the array, otherwise remove it
-   		if(index === -1) {
-			this.zoneData.push({
-				'id': id,
-				'duration' : val,
-				'sortOrder' : 1
-			});
-			this.setState({active: true})
-		} else {
-			this.zoneData.splice(index,1);
-		}	
-		if(this.zoneData.length === 0) {
-			this.setState({active: false})
-		}	
-  	},
-  	getTotalTime() {
-  		let val = 0;
-  		for (var i = 0; i < this.zoneData.length; i++) {
-  			val += this.zoneData[i].duration;
-  		}
-  		return val;
-  	},
+  	renderTimer() {
+		return <div>
+			<p>Manual Schedule Started for a total duration of {this.totalTime / 60} minutes</p>
+			<Timer secondsRemaining={this.totalTime} />
+		</div>
+	},
   	renderWaterInfo() {
   		if(!this.state.active) {
-  			return <p>There are no zones currently selected. Select a zone to set a watering time</p>
+  			return <p>There are no zones currently selected. Select zones to manually set watering times</p>
   		} else {
-  			return <p>There are {this.zoneData.length} zones currently selected</p>
+  			return <p>There are {this.activeZones} zones currently selected</p>
   		}
   	},
-  	renderForm() {
-  		return <div>
-  			<h2>Watering Info</h2>
-  			{this.renderWaterInfo()}
-			<button className  = {this.state.active ? "active" : "not-active"} disabled= {!this.state.active} onClick={this.startActiveZones}>Start Zone</button>
-		</div>
+  	renderLoader() {
+  		return <h3>Loading!</h3>
   	},
 	renderZones() {
 	    return this.state.zones.map(function(zones) {
@@ -108,7 +77,11 @@ module.exports = React.createClass({
 				{this.renderZones()}
 			</section>
 			<section className = "zone-dashboard">
-				{this.renderForm()}
+				<h2>Watering Info</h2>
+				{this.renderWaterInfo()}
+				{this.state.loading ? this.renderLoader() : null}
+				{this.state.timer ? this.renderTimer() : null}
+				<button className  = {this.state.active ? "active" : "not-active"} disabled= {!this.state.active} onClick={this.startActiveZones}>Start Zones</button>
 			</section>
 		</div>
 	}

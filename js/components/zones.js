@@ -26,16 +26,15 @@ module.exports = React.createClass({
 		this.setState({
         	duration: value
       	});
-
-      	if(this.state.active) {
-      		this.props.onUpdate(this.props.id, value);
-      	}
+      	ZoneStartStore.updateZone(this.props.id,value);
+      	this.props.onActivate();
 	},
 	toggleActive() {
 		this.setState({
 			active: !this.state.active
 		});
-		this.props.onActivate(this.props.id, this.state.duration);
+		ZoneStartStore.activateZone(this.props.id, this.state.duration);
+		this.props.onActivate();
 	},
 	renderForm() {
    		return <div className = "timePicker">
@@ -45,7 +44,6 @@ module.exports = React.createClass({
    		</div>
 	},
 	render() {
-		console.log(this.props);
 		return <div className = "zone" >
 			<img src = {this.props.imageUrl} />
 			<div onClick={this.toggleActive}>

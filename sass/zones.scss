@@ -1,9 +1,7 @@
 .zone-wrapper {
 	@include span-columns(6);
-	border: 1px solid #ccc;
-	padding:1rem;
+	cursor:pointer;
 }
-
 .zone {
 	@include span-columns(2 of 6);
 	@include omega(3n);
@@ -12,13 +10,16 @@
 	border-top: 1px solid #ccc;
 	border-right: 1px solid #ccc;
 	margin-bottom:1.5em;
+	box-shadow: 1px 2px 2px 0 rgba(0,0,0,.15);
 }
 .zone-name {
 	padding: 1.75em 0;
     font-size: 1rem;
     font-weight: 600;
-    background: #eee;
-    border-bottom: 5px solid #ddd;
+    background: $green-light;
+    border-bottom: 5px solid $blue;
+    color:#fff;
+    text-transform:uppercase;
 }
 .zone-info-wrapper {
 	width:100%;
@@ -28,14 +29,30 @@
 	    font-size: .95rem;
 	    padding:1.25em 0;
 	    border-bottom:1px solid #ccc;
-
 	    &:first-child {
 	    	border-right:1px solid #ccc;
 	    }
 	}
 }
-
 .zone-dashboard {
 	@include span-columns(4);
 	border: 1px solid #ccc;
+	p {
+		margin-bottom:1em;
+	}
+}
+.app-panel {
+	border: 1px solid #ccc;
+	box-shadow: 1px 2px 2px 0 rgba(0,0,0,.15);
+	border-radius:3px;
+
+	.loader {
+		width:100px;
+		display:block;
+		margin:0 auto;
+		padding-bottom:.5em;
+	}
+}
+.app-panel-inner {
+	padding:1rem;
 }

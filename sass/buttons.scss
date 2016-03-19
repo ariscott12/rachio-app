@@ -1,0 +1,14 @@
+button {
+    padding: .6em 1.25em .6em 1.25em;
+	&.not-active {
+		opacity:.25;
+		background:#ccc;
+
+	}
+	&.active {
+		opacity:1;
+		background:$orange;
+		cursor:pointer;
+		color:#fff;
+	}
+}

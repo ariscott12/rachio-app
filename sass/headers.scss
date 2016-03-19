@@ -1,0 +1,22 @@
+h1, h2, h3 {
+	&.bg-blue {
+		background:$blue;
+	}
+	&.bg-gray {
+		background:$gray;
+	}
+
+}
+h1 {
+	text-align:center;
+	color:#fff;
+	font-size:2rem;
+	margin-bottom:2em;
+	padding:.5em 0;
+}
+h2 {
+	color:#fff;
+	font-size: 1.75rem;
+    font-weight: normal;
+    padding: .25em 1em;
+}

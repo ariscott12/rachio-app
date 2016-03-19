@@ -1,0 +1,18 @@
+body {
+    font-size: 100%;
+    font-family: 'Hind', sans-serif;
+}
+
+.contain {
+	@include outer-container();
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    color:inherit;;
+}   
+
+

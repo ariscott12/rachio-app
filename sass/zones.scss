@@ -1,0 +1,41 @@
+.zone-wrapper {
+	@include span-columns(6);
+	border: 1px solid #ccc;
+	padding:1rem;
+}
+
+.zone {
+	@include span-columns(2 of 6);
+	@include omega(3n);
+	text-align: center;
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	margin-bottom:1.5em;
+}
+.zone-name {
+	padding: 1.75em 0;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #eee;
+    border-bottom: 5px solid #ddd;
+}
+.zone-info-wrapper {
+	width:100%;
+	.zone-info {
+		width:50%;
+		float:left;
+	    font-size: .95rem;
+	    padding:1.25em 0;
+	    border-bottom:1px solid #ccc;
+
+	    &:first-child {
+	    	border-right:1px solid #ccc;
+	    }
+	}
+}
+
+.zone-dashboard {
+	@include span-columns(4);
+	border: 1px solid #ccc;
+}

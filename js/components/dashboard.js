@@ -44,7 +44,7 @@ module.exports = React.createClass({
 	},
   	zoneInfo() {
   		if(!this.state.active) {
-  			return <p>There are no zones currently selected. Select zones to manually set watering times.</p>
+  			return <p>There are no zones currently selected. Select a zone(s) to manually set watering times.</p>
   		} else {
   			// Update the text based on how many zones are selected
   			return <p>There {this.activeZones === 1 ? "is" : "are"} {this.activeZones} {this.activeZones === 1 ? "zone" : "zones"} currently selected</p>
@@ -62,12 +62,7 @@ module.exports = React.createClass({
   	},
 	render() {
 		return <div>
-		 	<section className = "zone-wrapper app-panel">
-		 		<h2 className = "bg-gray">My Yard {this.state.zones.length} Zones</h2>
-		 		<div className = "app-panel-inner">
-					{this.state.zones ? this.renderZones() : null}
-				</div>
-			</section>
+		 
 			<section className = "zone-dashboard">
 				<WaterInfo />
 				<div className = "app-panel">
@@ -79,6 +74,12 @@ module.exports = React.createClass({
 					</div>
 				</div>
 				<ZonesAll zones = {this.state.zones} />
+			</section>
+				<section className = "zone-wrapper app-panel">
+		 		<h2 className = "bg-gray">My Yard {this.state.zones.length} Zones</h2>
+		 		<div className = "app-panel-inner">
+					{this.state.zones ? this.renderZones() : null}
+				</div>
 			</section>
 		</div>
 	}

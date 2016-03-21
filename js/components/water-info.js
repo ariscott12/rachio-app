@@ -33,7 +33,7 @@ module.exports = React.createClass({
   	renderTimer() {
   		let duration = this.state.duration;
 		return <div>
-			<p>Manual Schedule Started for a total duration of <strong>{ duration / 60 } minutes</strong></p>
+			<p>Manual Schedule Started for a total duration of <strong>{ duration / 60 } minute(s)</strong></p>
 			<Timer clear={this.clearTimer} secondsRemaining={this.state.duration} />
 		</div>
 	},

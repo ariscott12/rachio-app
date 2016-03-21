@@ -10,7 +10,7 @@ module.exports = {
             }
         }).then(function(response) {
             return response.json();
-        })
+        });
     },
     put(url, body) {
     	body = JSON.stringify(body);
@@ -22,6 +22,6 @@ module.exports = {
             body: body
         }).then(function(response) {
         	return response;
-        })
+        });
     }
 }

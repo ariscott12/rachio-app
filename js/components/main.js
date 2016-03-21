@@ -31,7 +31,7 @@ module.exports = React.createClass({
   },
   render() {  
     return <div>
-      <h1 className = "bg-blue app-title">Racio App</h1>
+      <h1 className = "bg-blue app-title">Rachio App</h1>
       <div  className = "contain">
         {this.state.zones ? this.renderDashboard() : null}   
       </div>

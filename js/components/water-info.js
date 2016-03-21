@@ -2,7 +2,6 @@ const React = require('react');
 const Reflux = require('reflux');
 const Timer = require('./timer');
 const ZoneStartStore = require('../stores/zone-start-store');
-const utils = require('../utils/utils');
 
 module.exports = React.createClass({
 	mixins: [
@@ -12,29 +11,30 @@ module.exports = React.createClass({
 		return {
 			timer: false,
 			loading: false,
-			time: 0
+			duration: 0
 		}
 	},
-	onChange(event, time) {
+	// Triggered when API put is complete passes in total duration if needed
+	onChange(event, duration) {
+		this.clearTimer();
 		this.setState({
 			timer: true,
 			loading: false,
-			time: time
+			duration: duration
 		});
 	},
-	startActiveZones() {		
-		this.totalTime = ZoneStartStore.getTotalTime();
-	},
+	// Callback function from <Timer /> component
 	clearTimer() {
 		this.setState({
 			timer: false
 		});
 	},
+	// Start the timer using component duration state
   	renderTimer() {
-  		let time = this.state.time;
+  		let duration = this.state.duration;
 		return <div>
-			<p>Manual Schedule Started for a total duration of { time / 60 } minutes</p>
-			<Timer clear={this.clearTimer} secondsRemaining={time} />
+			<p>Manual Schedule Started for a total duration of <strong>{ duration / 60 } minutes</strong></p>
+			<Timer clear={this.clearTimer} secondsRemaining={this.state.duration} />
 		</div>
 	},
   	renderMessage() {

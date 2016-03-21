@@ -1,64 +1,64 @@
 const React = require('react');
 const Reflux = require('reflux');
-const Api = require('../utils/api');
-const Timer = require('./timer');
 const Zones = require('./zones');
 const WaterInfo = require('../components/water-info');
 const ZonesAll = require('../components/zone-all');
 const ZoneStartStore = require('../stores/zone-start-store');
-const utils = require('../utils/utils');
-
 
 module.exports = React.createClass({
 	mixins: [
+		// listens for any events that are coming from ZoneStartStore, 
 	    Reflux.listenTo(ZoneStartStore, 'onChange'),
   	],
 	getInitialState() {
 		return {
 			zones: this.props.zoneData,
-			active: false,
+			active: false
 		}
 	},
 	componentDidMount() {
 		this.activeZones = 0;
 	},
-	onChange(event) {
+	// Triggered when API put is complete passes in total duration if needed
+	onChange(event, time) {
 		this.setState({
 			active: false,
 			loading: false
 		});
 	},
 	onActivate() {
+		// Gets number of active zones
 		this.activeZones =  ZoneStartStore.getActiveZones();
-		if(this.activeZones == 0) {
+		if(this.activeZones === 0) {
       		this.setState({active: false})
 	    } else {
 	      	this.setState({active: true})
 	    }
 	},
 	startActiveZones() {
-		let data = {
-			'zones' : this.zoneData
-		}	
 		this.setState({
 			loading: true
 		});
-		ZoneStartStore.startZones(data);
+		// Start Watering for all active zones
+		ZoneStartStore.startZones();
 	},
   	zoneInfo() {
   		if(!this.state.active) {
-  			return <p>There are no zones currently selected. Select a zone/zones to manually set watering times</p>
+  			return <p>There are no zones currently selected. Select zones to manually set watering times.</p>
   		} else {
-  			return <p>There are {this.activeZones} zones currently selected</p>
+  			// Update the text based on how many zones are selected
+  			return <p>There {this.activeZones === 1 ? "is" : "are"} {this.activeZones} {this.activeZones === 1 ? "zone" : "zones"} currently selected</p>
   		}
   	},
   	renderLoader() {
   		return <img className = "loader" src = "img/loader-2.gif" />
   	},
+  	// Render all zones for a persons yard
+  	// Provides callback function to parent component when zone clicked
 	renderZones() {
-	    return this.state.zones.map(function(zones) {
+	    return this.state.zones.map((zones) => {
 	      	return <Zones key = {zones.id} onActivate = {this.onActivate} {...zones} />	
-	   	}.bind(this));
+	   	});
   	},
 	render() {
 		return <div>

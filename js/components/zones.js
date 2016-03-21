@@ -26,26 +26,27 @@ module.exports = React.createClass({
 		this.setState({
         	duration: value
       	});
+      	// Update zone data to ZoneStartStore
       	ZoneStartStore.updateZone(this.props.id,value);
+      	// Trigger callback function to parent component so it knows component is active
       	this.props.onActivate();
 	},
 	toggleActive() {
 		this.setState({
 			active: !this.state.active
 		});
-		ZoneStartStore.activateZone(this.props.id, this.state.duration);
+		// Add/remove zone data to ZoneStartStore
+		ZoneStartStore.toggleZone(this.props.id, this.state.duration);
 		this.props.onActivate();
 	},
 	renderForm() {
    		return <div className = "timePicker">
 	   		<p>Set Time (mins)</p>
 	   		<NumberPicker  max={180} min={1} value={this.state.duration} onChange={this.handleChange}/>
-	   		
    		</div>
 	},
 	render() {
-		return <div className = "zone" >
-			<img src = {this.props.imageUrl} />
+		return <div className = {this.state.active ? "zone active" : "zone"}  >
 			<div onClick={this.toggleActive}>
 				<div className = "zone-name">{ this.props.name }</div>
 				<div className = "zone-info-wrapper clearfix">

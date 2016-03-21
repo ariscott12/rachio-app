@@ -1,9 +1,7 @@
 const React = require('react');
 
-
-
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
       secondsRemaining: 0
     };
@@ -11,6 +9,7 @@ module.exports = React.createClass({
   tick() {
     this.setState({secondsRemaining: this.state.secondsRemaining - 1});
     if (this.state.secondsRemaining <= 0) {
+      // Clear timer state in parent component
       this.props.clear();
       clearInterval(this.interval);
     }
@@ -22,9 +21,7 @@ module.exports = React.createClass({
   componentWillUnmount() {
     clearInterval(this.interval);
   },
-  render: function() {
-    return (
-      <div>Seconds Remaining: {this.state.secondsRemaining}</div>
-    );
+  render() {
+    return <p>Seconds Remaining: <span className = "strong">{this.state.secondsRemaining}</span></p>
   }
 });

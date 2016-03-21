@@ -3,7 +3,6 @@ const NumberPicker = require('react-widgets/lib/NumberPicker');
 const numberLocalizer = require('react-widgets/lib/localizers/simple-number');
 const Reflux = require('reflux');
 const ZoneStartStore = require('../stores/zone-start-store');
-const utils = require('../utils/utils');
 numberLocalizer();
 
 
@@ -20,16 +19,16 @@ module.exports = React.createClass({
   	onChange(event) {
 		this.setState({
 			loading:false
-		})
+		});
 	},
 	renderLoader() {
   		return <img className = "loader" src = "img/loader-2.gif" />
   	},
-	
 	startAllZones() {
 		this.setState({
 			loading:true
-		})
+		});
+		// Start all zones, takes zone data and duration as arguments
 		ZoneStartStore.startAllZones(this.props.zones, this.state.duration);
 	},
 	handleChange(value) {

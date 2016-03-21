@@ -1,6 +1,5 @@
 .zone-wrapper {
 	@include span-columns(6);
-	cursor:pointer;
 }
 .zone {
 	@include span-columns(2 of 6);
@@ -11,15 +10,27 @@
 	border-right: 1px solid #ccc;
 	margin-bottom:1.5em;
 	box-shadow: 1px 2px 2px 0 rgba(0,0,0,.15);
+	cursor:pointer;
 	&.active {
 		border:3px solid $gray;
-
 		.zone-name {
 			 background: $blue;
 		}
 	}
+	&:hover {
+		.zone-name {
+			 background: $blue;
+		}
+	}
+
+	@include break-at(900) {
+		@include span-columns(3 of 6);
+		@include omega-reset(3n, 6); // remove our previously defined omega item on the last row item and set new context (columns)
+      	@include omega(2n);
+	}
 }
 .zone-name {
+	@include transition(all .25s ease-out);
 	padding: 1.75em 0;
     font-size: 1rem;
     font-weight: 600;
@@ -40,34 +51,16 @@
 	    	border-right:1px solid #ccc;
 	    }
 	}
-}
-.zone-dashboard {
-	@include span-columns(4);
-	p {
-		margin-bottom:1em;
-	}
-	.rw-widget.rw-numberpicker {
-		border:1px solid #ccc;
-		width:16em;
-		margin-bottom:2em;
-	}
-	.number-label {
-		margin-bottom:.5em;
+	.info {
+		display: block;
+    	color: #999;
+    	font-size: 1.1rem;
+    	margin-top: .15em;
 	}
 }
-.app-panel {
-	border: 1px solid #ccc;
-	box-shadow: 1px 2px 2px 0 rgba(0,0,0,.15);
-	border-radius:3px;
-	margin-bottom:2em;
 
-	.loader {
-		width:100px;
-		display:block;
-		margin:0 auto;
-		padding-bottom:.5em;
+@include break-at(675) {
+	.zone-wrapper {
+		@include span-columns(10);
 	}
-}
-.app-panel-inner {
-	padding:1rem;
 }

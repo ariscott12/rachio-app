@@ -1,0 +1,12 @@
+@mixin break-at($breakpoint) {
+    @media only screen and (max-width: $breakpoint + px) { @content; }
+}
+
+@mixin omega-reset($nth, $context: null) {
+  @if $context == null { 
+    &:nth-child(#{$nth}) { margin-right: flex-gutter(); } 
+  } @else { 
+    &:nth-child(#{$nth}) { margin-right: flex-gutter($context); } 
+  }
+  &:nth-child(#{$nth}+1) { clear: none; }
+}

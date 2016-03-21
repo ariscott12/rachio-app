@@ -5,6 +5,9 @@ body {
 
 .contain {
 	@include outer-container();
+    @include break-at(1200) {
+        padding: 0 1.25rem;
+    }
 }
 
 li {

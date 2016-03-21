@@ -1,5 +1,6 @@
 button {
     padding: .6em 1.25em .6em 1.25em;
+    @include transition(all .25s ease-out);
 	&.not-active {
 		opacity:.25;
 		background:#ccc;
@@ -10,5 +11,8 @@ button {
 		background:$orange;
 		cursor:pointer;
 		color:#fff;
+		&:hover {
+			background:darken($orange, 10%);
+		}
 	}
 }

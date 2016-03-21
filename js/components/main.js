@@ -2,7 +2,7 @@ const React = require('react');
 const Reflux = require('reflux');
 const ZoneStore = require('../stores/zone-store');
 const Zones = require('./zones');
-const ZonesAll = require('./zones-all');
+const DashBoard = require('./dashboard');
 
 
 module.exports = React.createClass({
@@ -28,18 +28,17 @@ module.exports = React.createClass({
     this.setState({
       zones:zones
     })
-  //  console.log(this.state.zones);
   },
-   render() {
-   // console.log('test');
-  
+  render() {  
     return <div>
-      {this.state.zones ? this.renderZones() : null}   
+      <h1 className = "bg-blue app-title">Racio App</h1>
+      <div  className = "contain">
+        {this.state.zones ? this.renderDashboard() : null}   
+      </div>
     </div>
   },
- 
-  renderZones() {
-    return <ZonesAll zoneData = {this.state.zones} />
+  renderDashboard() {
+    return <DashBoard zoneData = {this.state.zones} />
   }
 });
 

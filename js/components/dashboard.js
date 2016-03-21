@@ -3,6 +3,8 @@ const Reflux = require('reflux');
 const Api = require('../utils/api');
 const Timer = require('./timer');
 const Zones = require('./zones');
+const WaterInfo = require('../components/water-info');
+const ZonesAll = require('../components/zone-all');
 const ZoneStartStore = require('../stores/zone-start-store');
 const utils = require('../utils/utils');
 
@@ -14,74 +16,69 @@ module.exports = React.createClass({
 	getInitialState() {
 		return {
 			zones: this.props.zoneData,
-			timer: false,
 			active: false,
-			loading: false
 		}
 	},
 	componentDidMount() {
 		this.activeZones = 0;
-		this.totalTime = 0;
 	},
 	onChange(event) {
 		this.setState({
 			active: false,
-			timer: true,
 			loading: false
 		});
 	},
 	onActivate() {
-		this.activeZones = ZoneStartStore.getActiveZones();
-		 if(this.activeZones == 0) {
+		this.activeZones =  ZoneStartStore.getActiveZones();
+		if(this.activeZones == 0) {
       		this.setState({active: false})
 	    } else {
 	      	this.setState({active: true})
 	    }
-
 	},
 	startActiveZones() {
 		let data = {
 			'zones' : this.zoneData
-		}		
+		}	
 		this.setState({
-			timer: false,
 			loading: true
-		})
-		this.totalTime = ZoneStartStore.getTotalTime();
+		});
 		ZoneStartStore.startZones(data);
 	},
-  	renderTimer() {
-		return <div>
-			<p>Manual Schedule Started for a total duration of {this.totalTime / 60} minutes</p>
-			<Timer secondsRemaining={this.totalTime} />
-		</div>
-	},
-  	renderWaterInfo() {
+  	zoneInfo() {
   		if(!this.state.active) {
-  			return <p>There are no zones currently selected. Select zones to manually set watering times</p>
+  			return <p>There are no zones currently selected. Select a zone/zones to manually set watering times</p>
   		} else {
   			return <p>There are {this.activeZones} zones currently selected</p>
   		}
   	},
   	renderLoader() {
-  		return <h3>Loading!</h3>
+  		return <img className = "loader" src = "img/loader-2.gif" />
   	},
 	renderZones() {
 	    return this.state.zones.map(function(zones) {
-	      	return <Zones onUpdate={this.onUpdate} onActivate = {this.onActivate} key = {zones.id} active= {this.state.active}  {...zones} />	
+	      	return <Zones key = {zones.id} onActivate = {this.onActivate} {...zones} />	
 	   	}.bind(this));
   	},
 	render() {
 		return <div>
-		 	<section className = "zone-wrapper">
-				{this.renderZones()}
+		 	<section className = "zone-wrapper app-panel">
+		 		<h2 className = "bg-gray">My Yard {this.state.zones.length} Zones</h2>
+		 		<div className = "app-panel-inner">
+					{this.state.zones ? this.renderZones() : null}
+				</div>
 			</section>
 			<section className = "zone-dashboard">
-				<h2>Watering Info</h2>
-				{this.renderWaterInfo()}
-				{this.state.loading ? this.renderLoader() : null}
-				{this.state.timer ? this.renderTimer() : null}
-				<button className  = {this.state.active ? "active" : "not-active"} disabled= {!this.state.active} onClick={this.startActiveZones}>Start Zones</button>
+				<WaterInfo />
+				<div className = "app-panel">
+					<h2 className = "bg-gray">Start Individual Zones</h2>
+					<div className = "app-panel-inner">
+						{this.zoneInfo()}
+						{this.state.loading ? this.renderLoader() : null}
+						<button className  = {this.state.active ? "active" : "not-active"} disabled= {!this.state.active} onClick={this.startActiveZones}>Start Zones</button>
+					</div>
+				</div>
+				<ZonesAll zones = {this.state.zones} />
 			</section>
 		</div>
 	}

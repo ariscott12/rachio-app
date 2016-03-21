@@ -17,7 +17,7 @@ module.exports = {
         return fetch(RootUrl + url, {
             method: 'PUT',
             headers: {
-                'Authorization': ApiKey
+                'Authorization': config.apiKey
             },
             body: body
         }).then(function(response) {

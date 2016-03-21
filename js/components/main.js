@@ -2,6 +2,7 @@ const React = require('react');
 const Reflux = require('reflux');
 const ZoneStore = require('../stores/zone-store');
 const Zones = require('./zones');
+const utils = require('../utils/utils');
 const DashBoard = require('./dashboard');
 
 
@@ -26,7 +27,8 @@ module.exports = React.createClass({
   // Triggered when data is received from API
   onChange(event,zones) {
     this.setState({
-      zones:zones
+      // sort the array based on zoneNumber
+      zones:utils.sortArray(zones)
     })
   },
   render() {  

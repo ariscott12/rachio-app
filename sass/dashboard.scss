@@ -1,0 +1,42 @@
+.zone-dashboard {
+	@include span-columns(4);
+	p {
+		margin-bottom:1em;
+	}
+	.rw-widget.rw-numberpicker {
+		border:1px solid #ccc;
+		width:16em;
+		margin-bottom:2em;
+	}
+	.number-label {
+		margin-bottom:.5em;
+	}
+}
+.app-panel {
+	border: 1px solid #ccc;
+	box-shadow: 1px 2px 2px 0 rgba(0,0,0,.15);
+	border-radius:3px;
+	margin-bottom:2em;
+
+	.loader {
+		width:100px;
+		display:block;
+		margin:0 auto;
+		padding-bottom:.5em;
+	}
+	.strong {
+		font-size: 1.5rem;
+		font-weight: bold;
+		margin-left: .25em;
+	}
+}
+.app-panel-inner {
+	padding:1rem;
+}
+
+
+@include break-at(675) {
+	.zone-dashboard {
+		@include span-columns(10);
+	}
+}

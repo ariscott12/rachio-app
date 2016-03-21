@@ -28,6 +28,11 @@
 		@include omega-reset(3n, 6); // remove our previously defined omega item on the last row item and set new context (columns)
       	@include omega(2n);
 	}
+	@include break-at(440) {
+		@include span-columns(6 of 6);
+		@include omega-reset(2n, 6); // remove our previously defined omega item on the last row item and set new context (columns)
+      	@include omega(1n);
+	}
 }
 .zone-name {
 	@include transition(all .25s ease-out);
